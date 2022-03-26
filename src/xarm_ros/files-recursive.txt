@@ -1,0 +1,12 @@
+cxx/demo:          directory
+cxx/doc:           directory
+cxx/example:       directory
+cxx/include:       directory
+cxx/LICENSE:       ASCII text
+cxx/Makefile:      makefile script, ASCII text
+cxx/ReadMe.md:     ASCII text, with CRLF line terminators
+cxx/src:           directory
+cxx/visual_studio: directory
+CMakeLists.txt:    ASCII text
+cxx:               directory
+package.xml:       XML 1.0 document, ASCII text

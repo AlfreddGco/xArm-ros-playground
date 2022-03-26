@@ -1,0 +1,1280 @@
+<sdf version='1.6'>
+  <world name='default'>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_bitmask>65535</collide_bitmask>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose frame=''>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    <physics name='default_physics' default='0' type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <gravity>0 0 -9.81</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <audio>
+      <device>default</device>
+    </audio>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='xarm6'>
+      <link name='link_base'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.09103 0 -0 0</pose>
+          <mass>2.7</mass>
+          <inertia>
+            <ixx>0.00494875</ixx>
+            <ixy>-3.5e-06</ixy>
+            <ixz>1.25e-05</ixz>
+            <iyy>0.00494174</iyy>
+            <iyz>1.67e-06</iyz>
+            <izz>0.002219</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_base_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/base.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_base_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/base.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='world_joint' type='fixed'>
+        <child>link_base</child>
+        <parent>world</parent>
+      </joint>
+      <link name='link1'>
+        <pose frame=''>0 0 0.267 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>-0.002 0.02692 -0.01332 0 -0 0</pose>
+          <mass>2.16</mass>
+          <inertia>
+            <ixx>0.00539427</ixx>
+            <ixy>1.095e-05</ixy>
+            <ixz>1.635e-06</ixz>
+            <iyy>0.0048979</iyy>
+            <iyz>0.000793</iyz>
+            <izz>0.00311573</izz>
+          </inertia>
+        </inertial>
+        <collision name='link1_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link1.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link1_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link1.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint1' type='revolute'>
+        <child>link1</child>
+        <parent>link_base</parent>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28319</lower>
+            <upper>6.28319</upper>
+            <effort>50</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='link2'>
+        <pose frame=''>0 0 0.267 -1.5708 0 0</pose>
+        <inertial>
+          <pose frame=''>0.03531 -0.21398 0.03386 0 -0 0</pose>
+          <mass>1.71</mass>
+          <inertia>
+            <ixx>0.0248674</ixx>
+            <ixy>-0.00430651</ixy>
+            <ixz>-0.00067797</ixz>
+            <iyy>0.00485548</iyy>
+            <iyz>0.00457245</iyz>
+            <izz>0.0238783</izz>
+          </inertia>
+        </inertial>
+        <collision name='link2_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link2.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link2_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link2.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint2' type='revolute'>
+        <child>link2</child>
+        <parent>link1</parent>
+        <axis>
+          <xyz>0 1 -4e-06</xyz>
+          <limit>
+            <lower>-2.059</lower>
+            <upper>2.0944</upper>
+            <effort>50</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='link3'>
+        <pose frame=''>0.0535 1e-06 0.5515 -1.5708 0 0</pose>
+        <inertial>
+          <pose frame=''>0.06781 0.10749 0.01457 0 -0 0</pose>
+          <mass>1.384</mass>
+          <inertia>
+            <ixx>0.0053694</ixx>
+            <ixy>0.0014185</ixy>
+            <ixz>-0.00092094</ixz>
+            <iyy>0.0032423</iyy>
+            <iyz>-0.00169178</iyz>
+            <izz>0.00501731</izz>
+          </inertia>
+        </inertial>
+        <collision name='link3_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link3.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link3_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link3.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint3' type='revolute'>
+        <child>link3</child>
+        <parent>link2</parent>
+        <axis>
+          <xyz>0 1 -4e-06</xyz>
+          <limit>
+            <lower>-3.927</lower>
+            <upper>0.19198</upper>
+            <effort>32</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='link4'>
+        <pose frame=''>0.131 -0 0.209 3.14159 -0 0</pose>
+        <inertial>
+          <pose frame=''>-0.00021 0.02578 -0.02538 0 -0 0</pose>
+          <mass>1.115</mass>
+          <inertia>
+            <ixx>0.00439263</ixx>
+            <ixy>5.028e-05</ixy>
+            <ixz>1.374e-05</ixz>
+            <iyy>0.0040077</iyy>
+            <iyz>0.00045338</iyz>
+            <izz>0.00110321</izz>
+          </inertia>
+        </inertial>
+        <collision name='link4_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link4.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link4_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link4.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint4' type='revolute'>
+        <child>link4</child>
+        <parent>link3</parent>
+        <axis>
+          <xyz>-0 -7e-06 -1</xyz>
+          <limit>
+            <lower>-6.28319</lower>
+            <upper>6.28319</upper>
+            <effort>32</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='link5'>
+        <pose frame=''>0.131 -0 0.209 -1.5708 0 0</pose>
+        <inertial>
+          <pose frame=''>0.05428 0.01781 0.00543 0 -0 0</pose>
+          <mass>1.275</mass>
+          <inertia>
+            <ixx>0.00120276</ixx>
+            <ixy>0.000492428</ixy>
+            <ixz>-0.00039147</ixz>
+            <iyy>0.0022876</iyy>
+            <iyz>-0.0001235</iyz>
+            <izz>0.0026866</izz>
+          </inertia>
+        </inertial>
+        <collision name='link5_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link5.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link5_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link5.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint5' type='revolute'>
+        <child>link5</child>
+        <parent>link4</parent>
+        <axis>
+          <xyz>0 1 -4e-06</xyz>
+          <limit>
+            <lower>-1.69297</lower>
+            <upper>3.14159</upper>
+            <effort>32</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='link6'>
+        <pose frame=''>0.207 -1e-06 0.112 3.14159 -0 0</pose>
+        <inertial>
+          <pose frame=''>-0.000545 -0.001431 0.038342 0 -0 0</pose>
+          <mass>0.65116</mass>
+          <inertia>
+            <ixx>0.000818795</ixx>
+            <ixy>2.44297e-07</ixy>
+            <ixz>6.08903e-06</ixz>
+            <iyy>0.000680747</iyy>
+            <iyz>2.08511e-06</iyz>
+            <izz>0.000336739</izz>
+          </inertia>
+        </inertial>
+        <collision name='link6_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/collision/end_tool.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='link6_fixed_joint_lump__xarm_gripper_base_link_collision_1'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/base_link_collision.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link6_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_description/meshes/xarm6/visual/link6.stl</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <visual name='link6_fixed_joint_lump__xarm_gripper_base_link_visual_1'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/base_link.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <velocity_decay/>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint6' type='revolute'>
+        <child>link6</child>
+        <parent>link5</parent>
+        <axis>
+          <xyz>-0 -7e-06 -1</xyz>
+          <limit>
+            <lower>-6.28319</lower>
+            <upper>6.28319</upper>
+            <effort>20</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='left_outer_knuckle'>
+        <pose frame=''>0.207 -0.035001 0.052902 3.14159 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0.021559 0.015181 0 -0 0</pose>
+          <mass>0.033618</mass>
+          <inertia>
+            <ixx>1.9111e-05</ixx>
+            <ixy>-1.8803e-17</ixy>
+            <ixz>-1.1002e-17</ixz>
+            <iyy>6.6256e-06</iyy>
+            <iyz>-7.3008e-06</iyz>
+            <izz>1.3185e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='left_outer_knuckle_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/left_outer_knuckle.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='left_outer_knuckle_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/left_outer_knuckle.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='drive_joint' type='revolute'>
+        <child>left_outer_knuckle</child>
+        <parent>link6</parent>
+        <axis>
+          <xyz>1 -0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.85</upper>
+            <effort>50</effort>
+            <velocity>2</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='left_finger'>
+        <pose frame=''>0.207 -0.070466 0.010864 3.14159 -0 0</pose>
+        <inertial>
+          <pose frame=''>-0 -0.016413 0.029258 0 -0 0</pose>
+          <mass>0.048304</mass>
+          <inertia>
+            <ixx>1.7493e-05</ixx>
+            <ixy>-4.2156e-19</ixy>
+            <ixz>6.9164e-18</ixz>
+            <iyy>1.7225e-05</iyy>
+            <iyz>4.6433e-06</iyz>
+            <izz>5.1466e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='left_finger_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/left_finger.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='left_finger_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/left_finger.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='left_finger_joint' type='revolute'>
+        <child>left_finger</child>
+        <parent>left_outer_knuckle</parent>
+        <axis>
+          <xyz>-1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.85</upper>
+            <effort>50</effort>
+            <velocity>2</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='left_inner_knuckle'>
+        <pose frame=''>0.207 -0.020001 0.037902 3.14159 -0 0</pose>
+        <inertial>
+          <pose frame=''>2e-06 0.022047 0.026134 0 -0 0</pose>
+          <mass>0.0230126</mass>
+          <inertia>
+            <ixx>6.0949e-06</ixx>
+            <ixy>6.06651e-11</ixy>
+            <ixz>7.19103e-11</ixz>
+            <iyy>6.01955e-06</iyy>
+            <iyz>-2.75317e-06</iyz>
+            <izz>5.07862e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='left_inner_knuckle_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/left_inner_knuckle.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='left_inner_knuckle_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/left_inner_knuckle.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='left_inner_knuckle_joint' type='revolute'>
+        <child>left_inner_knuckle</child>
+        <parent>link6</parent>
+        <axis>
+          <xyz>1 -0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.85</upper>
+            <effort>50</effort>
+            <velocity>2</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='right_inner_knuckle'>
+        <pose frame=''>0.207 0.019999 0.037902 3.14159 -0 0</pose>
+        <inertial>
+          <pose frame=''>2e-06 -0.022047 0.026133 0 -0 0</pose>
+          <mass>0.023013</mass>
+          <inertia>
+            <ixx>6.0949e-06</ixx>
+            <ixy>-6.0665e-11</ixy>
+            <ixz>7.191e-11</ixz>
+            <iyy>6.0197e-06</iyy>
+            <iyz>2.7531e-06</iyz>
+            <izz>5.0784e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='right_inner_knuckle_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/right_inner_knuckle.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='right_inner_knuckle_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/right_inner_knuckle.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='right_inner_knuckle_joint' type='revolute'>
+        <child>right_inner_knuckle</child>
+        <parent>link6</parent>
+        <axis>
+          <xyz>-1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.85</upper>
+            <effort>50</effort>
+            <velocity>2</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='right_outer_knuckle'>
+        <pose frame=''>0.207 0.034999 0.052902 3.14159 -0 0</pose>
+        <inertial>
+          <pose frame=''>-0 -0.021559 0.015181 0 -0 0</pose>
+          <mass>0.033618</mass>
+          <inertia>
+            <ixx>1.9111e-05</ixx>
+            <ixy>-1.8789e-17</ixy>
+            <ixz>1.0986e-17</ixz>
+            <iyy>6.6256e-06</iyy>
+            <iyz>7.3008e-06</iyz>
+            <izz>1.3185e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='right_outer_knuckle_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/right_outer_knuckle.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='right_outer_knuckle_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/right_outer_knuckle.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='right_outer_knuckle_joint' type='revolute'>
+        <child>right_outer_knuckle</child>
+        <parent>link6</parent>
+        <axis>
+          <xyz>-1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.85</upper>
+            <effort>50</effort>
+            <velocity>2</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='right_finger'>
+        <pose frame=''>0.207 0.070464 0.010863 3.14159 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0.016413 0.029258 0 -0 0</pose>
+          <mass>0.048304</mass>
+          <inertia>
+            <ixx>1.7493e-05</ixx>
+            <ixy>-5.0014e-19</ixy>
+            <ixz>-7.5079e-18</ixz>
+            <iyy>1.7225e-05</iyy>
+            <iyz>-4.6435e-06</iyz>
+            <izz>5.1466e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='right_finger_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/right_finger.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='right_finger_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/mcr2/Desktop/gitManCourseFeb2022/ManipulatorsFeb2022/test_arm/src/xarm_ros/xarm_gripper/meshes/right_finger.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='right_finger_joint' type='revolute'>
+        <child>right_finger</child>
+        <parent>right_outer_knuckle</parent>
+        <axis>
+          <xyz>1 -0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.85</upper>
+            <effort>50</effort>
+            <velocity>2</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <plugin name='gazebo_ros_control' filename='libgazebo_ros_control.so'>
+        <robotNamespace>/xarm</robotNamespace>
+        <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        <legacyModeNS>1</legacyModeNS>
+      </plugin>
+      <plugin name='gazebo_grasp_fix' filename='libgazebo_grasp_fix.so'>
+        <arm>
+          <arm_name>xarm_gripper</arm_name>
+          <palm_link>link6</palm_link>
+          <gripper_link>left_inner_knuckle</gripper_link>
+          <gripper_link>right_inner_knuckle</gripper_link>
+          <gripper_link>left_finger</gripper_link>
+          <gripper_link>right_finger</gripper_link>
+        </arm>
+        <forces_angle_tolerance>100</forces_angle_tolerance>
+        <update_rate>10</update_rate>
+        <grip_count_threshold>2</grip_count_threshold>
+        <max_grip_count>3</max_grip_count>
+        <release_tolerance>0.0198</release_tolerance>
+        <disable_collisions_on_attach>0</disable_collisions_on_attach>
+        <contact_topic>__default_topic__</contact_topic>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <plugin name='left_finger_jointmimic_joint_plugin' filename='libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so'>
+        <joint>drive_joint</joint>
+        <mimicJoint>left_finger_joint</mimicJoint>
+        <multiplier>1.0</multiplier>
+        <offset>0</offset>
+        <sensitiveness>0.0</sensitiveness>
+        <maxEffort>10.0</maxEffort>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <plugin name='left_inner_knuckle_jointmimic_joint_plugin' filename='libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so'>
+        <joint>drive_joint</joint>
+        <mimicJoint>left_inner_knuckle_joint</mimicJoint>
+        <multiplier>1.0</multiplier>
+        <offset>0</offset>
+        <sensitiveness>0.0</sensitiveness>
+        <maxEffort>10.0</maxEffort>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <plugin name='right_outer_knuckle_jointmimic_joint_plugin' filename='libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so'>
+        <joint>drive_joint</joint>
+        <mimicJoint>right_outer_knuckle_joint</mimicJoint>
+        <multiplier>1.0</multiplier>
+        <offset>0</offset>
+        <sensitiveness>0.0</sensitiveness>
+        <maxEffort>10.0</maxEffort>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <plugin name='right_finger_jointmimic_joint_plugin' filename='libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so'>
+        <joint>drive_joint</joint>
+        <mimicJoint>right_finger_joint</mimicJoint>
+        <multiplier>1.0</multiplier>
+        <offset>0</offset>
+        <sensitiveness>0.0</sensitiveness>
+        <maxEffort>10.0</maxEffort>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <static>0</static>
+      <plugin name='right_inner_knuckle_jointmimic_joint_plugin' filename='libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so'>
+        <joint>drive_joint</joint>
+        <mimicJoint>right_inner_knuckle_joint</mimicJoint>
+        <multiplier>1.0</multiplier>
+        <offset>0</offset>
+        <sensitiveness>0.0</sensitiveness>
+        <maxEffort>10.0</maxEffort>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <pose frame=''>-0.2 -0.5 1.021 0 -0 1.571</pose>
+    </model>
+    <state world_name='default'>
+      <sim_time>43 655000000</sim_time>
+      <real_time>72 764649757</real_time>
+      <wall_time>1643635208 791645999</wall_time>
+      <iterations>43655</iterations>
+      <model name='ground_plane'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='xarm6'>
+        <pose frame=''>-0.199999 -0.499998 1.021 -6e-06 -2.1e-05 1.571</pose>
+        <scale>1 1 1</scale>
+        <link name='left_finger'>
+          <pose frame=''>-0.051562 -0.167595 1.31654 -3.14156 0.001414 1.57071</pose>
+          <velocity>-0.00112 0.000469 -0.004868 -0.011713 0.014248 -0.0039</velocity>
+          <acceleration>-0 0 -0 -3.1e-05 -5.8e-05 0.000171</acceleration>
+          <wrench>-0 0 -0 0 -0 0</wrench>
+        </link>
+        <link name='left_inner_knuckle'>
+          <pose frame=''>-0.101878 -0.167552 1.3437 -3.13805 0.001391 1.5707</pose>
+          <velocity>-0.00081 0.000984 -0.004294 -0.011714 0.009364 -0.003893</velocity>
+          <acceleration>0 0 -0 -4e-06 2.3e-05 4.8e-05</acceleration>
+          <wrench>0 0 -0 0 -0 0</wrench>
+        </link>
+        <link name='left_outer_knuckle'>
+          <pose frame=''>-0.086878 -0.167532 1.3587 -3.13805 0.001414 1.57071</pose>
+          <velocity>-0.000639 0.001101 -0.004466 -0.011713 0.011399 -0.003896</velocity>
+          <acceleration>0 0 -0 -2.10391 -0.210055 0.13905</acceleration>
+          <wrench>0 0 -0 0 -0 0</wrench>
+        </link>
+        <link name='link1'>
+          <pose frame=''>-0.200001 -0.500004 1.288 1e-06 2.9e-05 1.34016</pose>
+          <velocity>-0 0 -0 -0 -0 -0.000485</velocity>
+          <acceleration>-0 -0 -0 0.488563 0.045223 0.696047</acceleration>
+          <wrench>-0 -0 -0 0 -0 0</wrench>
+        </link>
+        <link name='link2'>
+          <pose frame=''>-0.2 -0.499999 1.288 -1.57078 -0.47211 1.34013</pose>
+          <velocity>0 -0 0 -0.013504 0.003171 -0.000484</velocity>
+          <acceleration>-0 0 -0 1.47166 -1.05371 0.66975</acceleration>
+          <wrench>-0 0 -0 0 -0 0</wrench>
+        </link>
+        <link name='link3'>
+          <pose frame=''>-0.218678 -0.579567 1.5657 -1.57089 -1.20315 1.34024</pose>
+          <velocity>0.000842 0.003759 0.001134 -0.011593 0.002723 -0.000484</velocity>
+          <acceleration>-0 -0 0 3.10014 0.540783 1.48234</acceleration>
+          <wrench>-0 -0 0 0 -0 0</wrench>
+        </link>
+        <link name='link4'>
+          <pose frame=''>-0.139241 -0.241301 1.5149 3.14087 -1.20308 1.34091</pose>
+          <velocity>0.000868 0.003132 -0.003004 -0.009666 0.010929 -0.003732</velocity>
+          <acceleration>0 -0 -0 1.42914 -0.646669 1.98557</acceleration>
+          <wrench>0 -0 -0 0 -0 0</wrench>
+        </link>
+        <link name='link5'>
+          <pose frame=''>-0.139241 -0.241301 1.5149 -1.57108 0.001348 1.34024</pose>
+          <velocity>0.000868 0.003132 -0.003004 -0.011713 0.01141 -0.003732</velocity>
+          <acceleration>0 -0 0 0.511308 0.328379 0.252417</acceleration>
+          <wrench>0 -0 0 0 -0 0</wrench>
+        </link>
+        <link name='link6'>
+          <pose frame=''>-0.121876 -0.167447 1.4178 -3.14156 0.001384 1.5707</pose>
+          <velocity>3.5e-05 0.00193 -0.004067 -0.011713 0.011409 -0.003896</velocity>
+          <acceleration>0 0 0 3.13005 -0.151596 2.69328</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='link_base'>
+          <pose frame=''>-0.199999 -0.499998 1.021 -6e-06 -2.1e-05 1.571</pose>
+          <velocity>-0 0 -0 0 -0 0</velocity>
+          <acceleration>-0 0 -0 0.000627 -0.00048 6e-06</acceleration>
+          <wrench>-0 0 -0 0 -0 0</wrench>
+        </link>
+        <link name='right_finger'>
+          <pose frame=''>-0.192197 -0.167581 1.31654 -3.14156 0.001415 1.57069</pose>
+          <velocity>-0.001172 0.001017 -0.00322 -0.011713 0.011627 -0.003896</velocity>
+          <acceleration>0 0 0 -6e-06 -1.2e-05 -1.1e-05</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='right_inner_knuckle'>
+          <pose frame=''>-0.141878 -0.167548 1.3437 3.13811 0.00139 1.57069</pose>
+          <velocity>-0.00081 0.00114 -0.003838 -0.011713 0.012485 -0.003898</velocity>
+          <acceleration>0 0 0 -2.4e-05 -5.5e-05 9.4e-05</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='right_outer_knuckle'>
+          <pose frame=''>-0.156878 -0.167525 1.3587 3.13811 0.001406 1.57069</pose>
+          <velocity>-0.000639 0.001374 -0.003667 -0.011713 0.012641 -0.003898</velocity>
+          <acceleration>0 0 0 -2.2e-05 -0.000103 0.000204</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose frame=''>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>5.62623 -0.219666 1.45159 0 0.235643 -3.06299</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>

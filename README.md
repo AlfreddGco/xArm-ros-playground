@@ -57,4 +57,4 @@ rosrun pick_place solution_template.py 2>&1 | ./ignore_warn.py
 Special thanks to my fellow engineer Ricardo Leija for implementing the main setup and codebase for solution_template.py, Mauro Vaquero
 and Maria Fernanda for helping out with the documentation for the submission of this assignature. And special thanks to my girlfriend
 [Cristina Castillo](https://github.com/CrisCastilloM) for sticking with me along this journey, brainstorming,
-helping me bounce my ideas and debuging with me <3.
+helping me bounce my ideas and debugging with me <3.

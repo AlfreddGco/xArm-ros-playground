@@ -50,6 +50,7 @@ rosrun pick_place solution_template.py 2>&1 | ./ignore_warn.py
 - Setup moveit collision objects since beginning
 - Suppress TF_REPEATED_DATA warnings (this is the reason ignore_warn.py exists, as a temporal workaround to this)
 - Build a node to sync Gazebo environment with Moveit environment
+- Implement pickplace with grasps
 
 
 ### Special thanks:

@@ -32,7 +32,7 @@ roslaunch xarm_gazebo xarm6_challenge.launch
 
 Moveit control:
 ```
-roslaunch xarm6_gripper_moveit_config xarm6_gripper_moveit_gazebo.launch
+roslaunch xarm6_gripper_moveit_config xarm6_gripper_moveit_gazebo.launch 2>&1 | ./ignore_warn.py
 ```
 
 TasksPlanner:

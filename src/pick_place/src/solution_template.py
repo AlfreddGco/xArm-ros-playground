@@ -14,7 +14,6 @@ import geometry_msgs.msg
 from geometry_msgs.msg import PoseStamped, Pose
 from geometry_msgs.msg import Point, Quaternion, Twist, Vector3
 
-
 from path_planner.srv import *
 
 class Planner():
@@ -178,7 +177,7 @@ class Planner():
 
 class myNode():
   def __init__(self):
-    rospy.wait_for_service('RequestGoal')
+    rospy.wait_for_service('RequestTask')
     rospy.wait_for_service('AttachObject')
 
 
@@ -194,7 +193,7 @@ class myNode():
 
 
   #Note: I don't think this should be in here
-  def tf_goal(self, object_id, frame_id):
+  def tf_lookup(self, object_id, frame_id):
     #Use tf2 to retrieve the position of the target with respect to the proper reference frame
     tf_buffer = tf2_ros.Buffer()
     self.tf2_listener = tf2_ros.TransformListener(tf_buffer)
@@ -216,14 +215,14 @@ class myNode():
 
     for _ in range(3):
       box_name = self.get_task("pick")
-      box_pos = self.tf_goal(box_name, 'sensor_frame')
+      box_pos = self.tf_lookup(box_name, 'sensor_frame')
 
       planner.go_to_pose(box_pos)
       planner.change_grip('closed', box_name)
       planner.return_from_pose(box_pos)
 
       container_name = self.get_task("place")
-      container_pos = self.tf_goal(container_name, 'sensor_frame')
+      container_pos = self.tf_lookup(container_name, 'sensor_frame')
 
       planner.go_to_pose(container_pos)
       planner.change_grip('open', box_name)
@@ -233,8 +232,5 @@ class myNode():
 
 
 if __name__ == '__main__':
-  try:
-    node = myNode()
-    node.main()
-  except rospy.ROSInterruptException:
-    pass
+  node = myNode()
+  node.main()

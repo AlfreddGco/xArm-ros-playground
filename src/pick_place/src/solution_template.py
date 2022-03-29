@@ -177,42 +177,36 @@ class Planner():
 
 
 class myNode():
-  #Initialise ROS and create the service calls
   def __init__(self):
-    # Good practice trick, wait until the required services are online before continuing with the aplication
     rospy.wait_for_service('RequestGoal')
     rospy.wait_for_service('AttachObject')
 
 
-  def get_goal(self, action):
-    #Call the service that will provide you with a suitable target for the movement
+  def get_task(self, action):
     try:
-      call_service = rospy.ServiceProxy('RequestGoal', RequestGoal)
+      call_service = rospy.ServiceProxy('RequestTask', RequestTask)
       response = call_service(action)
-      #print(response.goal)
-      #sys.stdout.flush()
-      return response.goal
+      #response.model_name, response.position, response.error
+      return response.model_name
     except rospy.ServiceException as e:
       print("Service call failed: %s" % e)
       sys.stdout.flush()
 
 
-  def tf_goal(self, goal_name, frame_id = 'sensor_frame'):
+  #Note: I don't think this should be in here
+  def tf_goal(self, object_id, frame_id):
     #Use tf2 to retrieve the position of the target with respect to the proper reference frame
-    #self.pub_tf = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=1)
-    self.tf_buffer = tf2_ros.Buffer()
-    self.tf2_listener = tf2_ros.TransformListener(self.tf_buffer)
-    transform = self.tf_buffer.lookup_transform(
-      frame_id, goal_name,
+    tf_buffer = tf2_ros.Buffer()
+    self.tf2_listener = tf2_ros.TransformListener(tf_buffer)
+    lookup = tf_buffer.lookup_transform(
+      frame_id, object_id,
       rospy.Time(), rospy.Duration(3) #timeout
     )
     target_position = [
-      transform.transform.translation.x,
-      transform.transform.translation.y,
-      transform.transform.translation.z,
+      lookup.transform.translation.x,
+      lookup.transform.translation.y,
+      lookup.transform.translation.z,
     ]
-    print(target_position)
-    sys.stdout.flush()
     return target_position
 
 
@@ -221,24 +215,15 @@ class myNode():
     planner = Planner()
 
     for _ in range(3):
-      box_name = self.get_goal("pick")
-      box_pos = self.tf_goal(box_name)
-      
-      box_pose = PoseStamped()
-      moveit_box_pos = self.tf_goal(box_name, 'link_tcp')
-      box_pose.header.frame_id = "link_tcp"
-      box_pose.pose.position.x = moveit_box_pos[0]
-      box_pose.pose.position.y = moveit_box_pos[1]
-      box_pose.pose.position.z = moveit_box_pos[2]
-      box_pose.pose.orientation.w = 1.0
-      planner.scene.add_box(box_name, box_pose, size=(0.06, 0.06, 0.06))
+      box_name = self.get_task("pick")
+      box_pos = self.tf_goal(box_name, 'sensor_frame')
 
       planner.go_to_pose(box_pos)
       planner.change_grip('closed', box_name)
       planner.return_from_pose(box_pos)
 
-      container_name = self.get_goal("place")
-      container_pos = self.tf_goal(container_name)
+      container_name = self.get_task("place")
+      container_pos = self.tf_goal(container_name, 'sensor_frame')
 
       planner.go_to_pose(container_pos)
       planner.change_grip('open', box_name)

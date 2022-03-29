@@ -1,0 +1,6 @@
+# you can request either a pick (target of the box to collect) or place (destination of the box)
+string action
+---
+string model_name
+float32[] position
+string error

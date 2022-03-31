@@ -2,6 +2,7 @@
 import sys
 
 import rospy
+from std_msgs.msg import Empty
 
 import tf_conversions, tf2_ros, tf2_msgs.msg
 from tf.transformations import *
@@ -88,6 +89,12 @@ class Environment:
       self.gazebo_broadcast_transforms
     )
 
+    rospy.Subscriber(
+      '/path_planner/environment/reset',
+      Empty,
+      self.reset
+    )
+
     self.robot = moveit_commander.RobotCommander()
     self.scene = moveit_commander.PlanningSceneInterface()
 
@@ -129,7 +136,11 @@ class Environment:
 
     attached_objects = self.scene.get_attached_objects().keys()
 
+    transforms = []
+
     for obj in set(data.name).intersection(objects):
+      print('Broadcasting', obj)
+      sys.stdout.flush()
       if obj in attached_objects:
         tf = self.tfBuffer.lookup_transform(
           'sensor_frame', 'link_attach',
@@ -149,7 +160,9 @@ class Environment:
         tf.child_frame_id = obj
         tf.transform.translation = obj_pose
         tf.transform.rotation = obj_orientation
-        self.br.sendTransform(tf)
+        transforms.append(tf)
+    
+    self.br.sendTransform(transforms)
 
 
   def tf_lookup(self, object_id, frame_id = 'sensor_frame'):
@@ -162,16 +175,29 @@ class Environment:
     return lookup.transform
 
 
+  def reset(self, data):
+    print('Resetting environment')
+    sys.stdout.flush()
+    self.reset_gazebo_objects()
+    self.reset_moveit_objects()
+
+
   #Not working yet
   def reset_moveit_objects(self):
+    self.scene.clear()
     for model in self.models:
       model_pose = PoseStamped()
 
-      model_transform = self.tf_lookup(model['name'], 'world')
-      model_pose.header.frame_id = "world"
+      model_pose.header.frame_id = "sensor_frame"
 
-      model_pose.pose.position = model_transform.translation
-      model_pose.pose.orientation = model_transform.rotation
+      model_pose.pose.position.x = model['position']['x']
+      model_pose.pose.position.y = model['position']['y']
+      model_pose.pose.position.z = model['position']['z']
+
+      model_pose.pose.orientation.x = model['orientation']['x']
+      model_pose.pose.orientation.y = model['orientation']['y']
+      model_pose.pose.orientation.z = model['orientation']['z']
+      model_pose.pose.orientation.w = model['orientation']['w']
 
       if('type' in model and model['type'] == 'box'):
         self.scene.add_box(model['name'], model_pose, size = model['size'])

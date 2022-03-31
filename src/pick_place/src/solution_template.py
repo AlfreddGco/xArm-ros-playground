@@ -216,7 +216,6 @@ class myNode():
 
     for _ in range(3):
       box_name = self.get_task("pick")
-      print('Box name:', box_name)
       sys.stdout.flush()
       box_pos = self.tf_lookup(box_name, 'sensor_frame')
 
@@ -225,7 +224,6 @@ class myNode():
       planner.return_from_pose(box_pos)
 
       container_name = self.get_task("place")
-      print('Container name:', container_name)
       sys.stdout.flush()
       container_pos = self.tf_lookup(container_name, 'sensor_frame')
 
@@ -240,9 +238,6 @@ if __name__ == '__main__':
   while True:
     node = myNode()
     node.main()
-
-
-
 
     print('Restart solution? (Y/n)')
     sys.stdout.flush()

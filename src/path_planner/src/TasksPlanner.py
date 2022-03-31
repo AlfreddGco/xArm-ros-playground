@@ -78,6 +78,9 @@ class TasksPlanner():
     if(action not in ALLOWED_ACTIONS):
       return RequestTaskResponse('', [-1, -1, -1], 'Invalid action')
 
+    print('Sending task: %s, index: %d' % (action, self.task_idx))
+    sys.stdout.flush()
+
     if(action == 'pick'):
       goal = self.tasks[self.task_idx]['source']
     elif(action == 'place'):

@@ -139,8 +139,6 @@ class Environment:
     transforms = []
 
     for obj in set(data.name).intersection(objects):
-      print('Broadcasting', obj)
-      sys.stdout.flush()
       if obj in attached_objects:
         tf = self.tfBuffer.lookup_transform(
           'sensor_frame', 'link_attach',

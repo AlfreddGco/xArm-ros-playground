@@ -2,6 +2,8 @@
 import rospy
 import sys, copy
 
+from std_msgs.msg import Empty
+
 import tf_conversions, tf2_ros, tf2_msgs.msg
 from tf.transformations import *
 from tf import TransformListener
@@ -22,7 +24,6 @@ class Planner():
 
     #Moveit interface initialization
     moveit_commander.roscpp_initialize(sys.argv)
-    rospy.init_node("moveit_py", anonymous=True)
 
     #Commander and scene definition
     self.robot = moveit_commander.RobotCommander()
@@ -215,6 +216,8 @@ class myNode():
 
     for _ in range(3):
       box_name = self.get_task("pick")
+      print('Box name:', box_name)
+      sys.stdout.flush()
       box_pos = self.tf_lookup(box_name, 'sensor_frame')
 
       planner.go_to_pose(box_pos)
@@ -222,15 +225,36 @@ class myNode():
       planner.return_from_pose(box_pos)
 
       container_name = self.get_task("place")
+      print('Container name:', container_name)
+      sys.stdout.flush()
       container_pos = self.tf_lookup(container_name, 'sensor_frame')
 
       planner.go_to_pose(container_pos)
       planner.change_grip('open', box_name)
       planner.return_from_pose(container_pos)
 
-    rospy.signal_shutdown("Task Completed")
-
 
 if __name__ == '__main__':
-  node = myNode()
-  node.main()
+  rospy.init_node("solution", anonymous=True)
+
+  while True:
+    node = myNode()
+    node.main()
+
+
+
+
+    print('Restart solution? (Y/n)')
+    sys.stdout.flush()
+    res = input()
+    if(res != 'n'):
+      reset_env_topic = rospy.Publisher(
+        'path_planner/environment/reset', Empty,
+        queue_size=10, latch=True,
+      )
+      reset_env_topic.publish()
+      rospy.sleep(2)
+    else:
+      break
+  
+  rospy.signal_shutdown("Task Completed")

@@ -56,7 +56,7 @@ class TasksPlanner():
     rospy.wait_for_service('/link_attacher_node/detach')
     attach_srv = rospy.ServiceProxy('/link_attacher_node/attach', Attach)
     detach_srv = rospy.ServiceProxy('/link_attacher_node/detach', Attach)
-    data.action, data.frame (box_name)
+    #data.action, data.frame (box_name)
     req = AttachRequest()
     req.model_name_1 = "xarm6"
     req.link_name_1 = "link6"

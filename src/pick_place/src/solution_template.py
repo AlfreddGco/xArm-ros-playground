@@ -85,28 +85,6 @@ class Planner():
     self.display_trajectory_publisher.publish(display_trajectory)
 
 
-  def go_to_pose2(self, goal):
-    print('Going to:', goal)
-    sys.stdout.flush()
-    pose_goal = geometry_msgs.msg.Pose()
-    pose_goal.orientation.w = 1.0
-    pose_goal.position.x = goal[0]
-    pose_goal.position.y = goal[1]
-    pose_goal.position.z = goal[2] + 0.25
-    self.arm_move_group.set_pose_target(pose_goal)
-    plan = self.arm_move_group.go(wait=True)
-    self.arm_move_group.stop()
-    self.arm_move_group.clear_pose_targets()
-
-    pose_goal.position.z -= 0.25
-    self.arm_move_group.set_pose_target(pose_goal)
-    plan = self.arm_move_group.go(wait=True)
-    self.arm_move_group.stop()
-    self.publish_trajectory(plan)
-    self.arm_move_group.execute(plan, wait=True)
-    self.arm_move_group.clear_pose_targets()
-
-
   #Code used to move to a given position using move it
   def go_to_pose(self, goal):
     print('Going to:', goal)
@@ -116,10 +94,10 @@ class Planner():
     #Move to the position of the box 0.25 above on the z-axis
     wpose.position.x = goal[1] - self.posXarm[1]
     wpose.position.y = -goal[0]
-    wpose.position.z = goal[2] - self.posXarm[2] - 0.02 + 0.25
+    wpose.position.z = 0.25
     waypoints.append(copy.deepcopy(wpose))
 
-    wpose.position.z -= 0.25
+    wpose.position.z = 0.04
     waypoints.append(copy.deepcopy(wpose))
 
     (plan, _) = self.arm_move_group.compute_cartesian_path(
@@ -228,6 +206,7 @@ if __name__ == '__main__':
     queue_size=10, latch=True,
   )
   reset_env_topic.publish()
+  rospy.sleep(2)
 
   while True:
     node = myNode()

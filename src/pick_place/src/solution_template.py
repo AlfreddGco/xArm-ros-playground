@@ -36,7 +36,7 @@ class Planner():
     self.display_trajectory_publisher = rospy.Publisher(
       '/move_group/display_planned_path',
       moveit_msgs.msg.DisplayTrajectory,
-      queue_size = 20,
+      queue_size = 20, latch=True
     )
     # We can get the name of the reference frame for this robot
     self.planning_frame = self.arm_move_group.get_planning_frame()
@@ -52,6 +52,7 @@ class Planner():
     sys.stdout.flush()
     # print("Robot state:", xarm.get_current_state())
     #sys.stdout.flush()
+    self.attachService = rospy.ServiceProxy("AttachObject", AttachObject)
 
 
   #Whenever we change something in moveit we need to make sure that the interface has been updated properly
@@ -84,35 +85,50 @@ class Planner():
     self.display_trajectory_publisher.publish(display_trajectory)
 
 
+  def go_to_pose2(self, goal):
+    print('Going to:', goal)
+    sys.stdout.flush()
+    pose_goal = geometry_msgs.msg.Pose()
+    pose_goal.orientation.w = 1.0
+    pose_goal.position.x = goal[0]
+    pose_goal.position.y = goal[1]
+    pose_goal.position.z = goal[2] + 0.25
+    self.arm_move_group.set_pose_target(pose_goal)
+    plan = self.arm_move_group.go(wait=True)
+    self.arm_move_group.stop()
+    self.arm_move_group.clear_pose_targets()
+
+    pose_goal.position.z -= 0.25
+    self.arm_move_group.set_pose_target(pose_goal)
+    plan = self.arm_move_group.go(wait=True)
+    self.arm_move_group.stop()
+    self.publish_trajectory(plan)
+    self.arm_move_group.execute(plan, wait=True)
+    self.arm_move_group.clear_pose_targets()
+
+
   #Code used to move to a given position using move it
   def go_to_pose(self, goal):
+    print('Going to:', goal)
+    sys.stdout.flush()
+    waypoints = []
     wpose = self.arm_move_group.get_current_pose().pose
     #Move to the position of the box 0.25 above on the z-axis
-    wpose.position.x = float(goal[1]) - self.posXarm[1]
-    wpose.position.y = -float(goal[0])
-    wpose.position.z = float(goal[2]) - self.posXarm[2] - 0.02 + 0.25
-    waypoints = [copy.deepcopy(wpose)]
-    (plan, fraction) = self.arm_move_group.compute_cartesian_path(
-      waypoints,   # waypoints to follow
-      0.01,        # eef_step
-      0.0,         # jump_threshold
-    )
-    self.publish_trajectory(plan)
-    # Execute the planned trajectory
-    self.arm_move_group.execute(plan, wait=True)
-    self.arm_move_group.stop()
+    wpose.position.x = goal[1] - self.posXarm[1]
+    wpose.position.y = -goal[0]
+    wpose.position.z = goal[2] - self.posXarm[2] - 0.02 + 0.25
+    waypoints.append(copy.deepcopy(wpose))
 
-    #Go to the position of the cube
-    wpose.position.z = -0.005
-    waypoints = [copy.deepcopy(wpose)]
-    (plan, fraction) = self.arm_move_group.compute_cartesian_path(
+    wpose.position.z -= 0.25
+    waypoints.append(copy.deepcopy(wpose))
+
+    (plan, _) = self.arm_move_group.compute_cartesian_path(
       waypoints,   # waypoints to follow
       0.01,        # eef_step
       0.0,         # jump_threshold
     )
     self.publish_trajectory(plan)
-    # Execute the planned trajectory
-    self.arm_move_group.execute(plan, wait = True)
+    self.arm_move_group.execute(plan, wait=True)
     self.arm_move_group.stop()
     # It is always good to clear your targets after planning with poses.
     # Note: there is no equivalent function for clear_joint_value_targets()
@@ -121,30 +137,22 @@ class Planner():
 
   #Returns from its actual state to a "home" position defined by the programmer
   def return_from_pose(self, goal):
+    waypoints = []
     wpose = self.arm_move_group.get_current_pose().pose
-    ##Aqui regresa a otro point
-    wpose.position.z = (float(goal[2]) - self.posXarm[2] - 0.02) + 0.25
-    waypoints = [copy.deepcopy(wpose)]
-    (plan, fraction) = self.arm_move_group.compute_cartesian_path(
-      waypoints,   # waypoints to follow
-      0.01,        # eef_step
-      0.0,         # jump_threshold
-    )
-    self.publish_trajectory(plan)
-    # Execute the planned trajectory
-    self.arm_move_group.execute(plan, wait=True)
-    self.arm_move_group.stop()
-    #Home position designed for the robot to not collision himself and  finds a trajectory
+
+    wpose.position.z += 0.25
+    waypoints.append(copy.deepcopy(wpose))
+
     wpose.position.y = 0.0
     wpose.position.x = 0.3
-    waypoints = [copy.deepcopy(wpose)]
-    (plan, fraction) = self.arm_move_group.compute_cartesian_path(
+    waypoints.append(copy.deepcopy(wpose))
+
+    (plan, _) = self.arm_move_group.compute_cartesian_path(
       waypoints,   # waypoints to follow
       0.01,        # eef_step
       0.0,         # jump_threshold
     )
     self.publish_trajectory(plan)
-    # Execute the planned trajectory
     self.arm_move_group.execute(plan, wait=True)
     self.arm_move_group.stop()
     # It is always good to clear your targets after planning with poses.
@@ -153,7 +161,6 @@ class Planner():
 
 
   def change_grip(self, state, box_name):
-    attachService = rospy.ServiceProxy("AttachObject", AttachObject)
     joint_goal = [0]*6
 
     if(state == 'closed'):
@@ -161,15 +168,13 @@ class Planner():
 
       touch_links = self.robot.get_link_names(group = 'xarm_gripper')
       self.scene.attach_box(self.eef_link, box_name, touch_links = touch_links)
-
-      attachService(True, box_name)
+      self.attachService(True, box_name)
       self.wait_for_state_update(box_name, True)
     elif(state == 'open'):
       joint_goal = [0.01]*6
 
-      self.scene.remove_attached_object(self.eef_link, name = box_name)
-
-      attachService(False, box_name)
+      self.scene.remove_attached_object(self.eef_link, box_name)
+      self.attachService(False, box_name)
       self.wait_for_state_update(box_name, False)
     
     self.gripper_move_group.go(joint_goal, wait=True)
@@ -187,45 +192,29 @@ class myNode():
       call_service = rospy.ServiceProxy('RequestTask', RequestTask)
       response = call_service(action)
       #response.model_name, response.position, response.error
-      return response.model_name
+      return response
     except rospy.ServiceException as e:
       print("Service call failed: %s" % e)
       sys.stdout.flush()
-
-
-  #Note: I don't think this should be in here
-  def tf_lookup(self, object_id, frame_id):
-    #Use tf2 to retrieve the position of the target with respect to the proper reference frame
-    tf_buffer = tf2_ros.Buffer()
-    self.tf2_listener = tf2_ros.TransformListener(tf_buffer)
-    lookup = tf_buffer.lookup_transform(
-      frame_id, object_id,
-      rospy.Time(), rospy.Duration(3) #timeout
-    )
-    target_position = [
-      lookup.transform.translation.x,
-      lookup.transform.translation.y,
-      lookup.transform.translation.z,
-    ]
-    return target_position
-
 
   def main(self):
     #Aplicacion de las funciones desarrolladas
     planner = Planner()
 
     for _ in range(3):
-      box_name = self.get_task("pick")
-      sys.stdout.flush()
-      box_pos = self.tf_lookup(box_name, 'sensor_frame')
+      pick = self.get_task("pick")
+      box_name = pick.model_name
+      box_pos = pick.position
+      #box_pos = self.tf_lookup(box_name, 'sensor_frame')
 
       planner.go_to_pose(box_pos)
       planner.change_grip('closed', box_name)
       planner.return_from_pose(box_pos)
 
-      container_name = self.get_task("place")
-      sys.stdout.flush()
-      container_pos = self.tf_lookup(container_name, 'sensor_frame')
+      place = self.get_task("place")
+      container_name = place.model_name
+      container_pos = place.position
+      #container_pos = self.tf_lookup(container_name, 'sensor_frame')
 
       planner.go_to_pose(container_pos)
       planner.change_grip('open', box_name)
@@ -234,6 +223,11 @@ class myNode():
 
 if __name__ == '__main__':
   rospy.init_node("solution", anonymous=True)
+  reset_env_topic = rospy.Publisher(
+    'path_planner/environment/reset', Empty,
+    queue_size=10, latch=True,
+  )
+  reset_env_topic.publish()
 
   while True:
     node = myNode()
@@ -243,10 +237,6 @@ if __name__ == '__main__':
     sys.stdout.flush()
     res = input()
     if(res != 'n'):
-      reset_env_topic = rospy.Publisher(
-        'path_planner/environment/reset', Empty,
-        queue_size=10, latch=True,
-      )
       reset_env_topic.publish()
       rospy.sleep(2)
     else:

@@ -93,7 +93,7 @@ class TasksPlanner():
     position = [
       state.pose.position.x,
       state.pose.position.y,
-      state.pose.position.z,
+      1.045 + 0.03,
     ]
     return RequestTaskResponse(goal, position, '')
 

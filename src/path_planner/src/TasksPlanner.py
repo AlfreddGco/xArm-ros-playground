@@ -89,11 +89,14 @@ class TasksPlanner():
       #reset index
       self.task_idx = self.task_idx % len(self.tasks)
     
-    state = self.get_model_state_srv.call(goal, '')
+    print('Goal:', goal)
+    sys.stdout.flush()
+
+    state = self.get_model_state_srv.call(goal, 'xarm6::link_base')
     position = [
       state.pose.position.x,
       state.pose.position.y,
-      1.045 + 0.03,
+      state.pose.position.z + 0.02,
     ]
     return RequestTaskResponse(goal, position, '')
 

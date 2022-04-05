@@ -6,22 +6,19 @@ from std_msgs.msg import Empty
 
 import tf_conversions, tf2_ros, tf2_msgs.msg
 from tf.transformations import *
-from tf import TransformListener
 
 import moveit_commander, moveit_msgs.msg
 from moveit_commander.conversions import pose_to_list
 from moveit_msgs.msg import Grasp
 
 import geometry_msgs.msg
-from geometry_msgs.msg import PoseStamped, Pose
+from geometry_msgs.msg import PoseStamped, Pose, PointStamped, TransformStamped
 from geometry_msgs.msg import Point, Quaternion, Twist, Vector3
 
 from path_planner.srv import *
 
 class Planner():
   def __init__(self):
-    self.posXarm = [-0.000001, 0.200001, 1.021000]
-
     #Moveit interface initialization
     moveit_commander.roscpp_initialize(sys.argv)
 
@@ -92,12 +89,12 @@ class Planner():
     waypoints = []
     wpose = self.arm_move_group.get_current_pose().pose
     #Move to the position of the box 0.25 above on the z-axis
-    wpose.position.x = goal[1] - self.posXarm[1]
-    wpose.position.y = -goal[0]
+    wpose.position.x = goal[0]
+    wpose.position.y = goal[1]
     wpose.position.z = 0.25
     waypoints.append(copy.deepcopy(wpose))
 
-    wpose.position.z = 0.04
+    wpose.position.z = goal[2]
     waypoints.append(copy.deepcopy(wpose))
 
     (plan, _) = self.arm_move_group.compute_cartesian_path(
@@ -176,14 +173,12 @@ class myNode():
       sys.stdout.flush()
 
   def main(self):
-    #Aplicacion de las funciones desarrolladas
     planner = Planner()
 
     for _ in range(3):
       pick = self.get_task("pick")
       box_name = pick.model_name
       box_pos = pick.position
-      #box_pos = self.tf_lookup(box_name, 'sensor_frame')
 
       planner.go_to_pose(box_pos)
       planner.change_grip('closed', box_name)
@@ -192,7 +187,6 @@ class myNode():
       place = self.get_task("place")
       container_name = place.model_name
       container_pos = place.position
-      #container_pos = self.tf_lookup(container_name, 'sensor_frame')
 
       planner.go_to_pose(container_pos)
       planner.change_grip('open', box_name)

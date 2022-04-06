@@ -35,6 +35,11 @@ Moveit control:
 roslaunch xarm6_gripper_moveit_config xarm6_gripper_moveit_gazebo.launch 2>&1 | ./ignore_warn.py
 ```
 
+Environments syncronization:
+```
+rosrun path_planner environment.py 2>&1 | ./ignore_warn.py
+```
+
 TasksPlanner:
 ```
 rosrun path_planner TasksPlanner.py 2>&1 | ./ignore_warn.py

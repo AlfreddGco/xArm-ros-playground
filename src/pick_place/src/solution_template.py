@@ -118,9 +118,9 @@ class Planner():
     wpose.position.z += 0.25
     waypoints.append(copy.deepcopy(wpose))
 
-    wpose.position.y = 0.0
-    wpose.position.x = 0.3
-    waypoints.append(copy.deepcopy(wpose))
+    # wpose.position.y = 0.0
+    # wpose.position.x = 0.3
+    # waypoints.append(copy.deepcopy(wpose))
 
     (plan, _) = self.arm_move_group.compute_cartesian_path(
       waypoints,   # waypoints to follow

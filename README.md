@@ -1,4 +1,4 @@
-# xArmRosPlayground
+# xArm-ros-playground
 
 Description: At the moment this is implementing a school project for picking up boxes and putting them in containers.
 This is the starting point of the project from which it could grow up to be something more formal, scalable and innovative.
